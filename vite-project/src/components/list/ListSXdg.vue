@@ -1,0 +1,4 @@
+<template>
+  <!-- square-root NOT-dagger(SXdg) -->
+  <span><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="block select-none" data-testid="CatalogItem-sxdg" style="cursor: grab;"><rect x="0" y="0" width="32" height="32" style="fill: rgb(159, 24, 83); stroke-width: 0; stroke: transparent; paint-order: stroke;"></rect><path transform="translate(0.5500000000000007, -0.6750000000000007)" d="M25.45 12.675V16.125L26 17.125L26.55 16.125V12.675H28V11.575H26.55V10.125H25.45V11.575H24V12.675H25.45Z" fill="#ffffff"></path><path d="M10.4344 8H23.5V9.25H11.5656L10.0656 24.25H6.92123L6.42123 17.75H5V16.5H7.57877L8.07877 23H8.93438L10.4344 8Z" fill="#ffffff"></path><text x="18" y="17" dy=".3em" style="font-family: &quot;IBM Plex Sans&quot;, sans-serif; font-size: 16px; font-style: normal; fill: rgb(255, 255, 255); font-weight: 400; text-anchor: middle;">X</text></svg></span>
+</template>

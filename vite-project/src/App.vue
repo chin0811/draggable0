@@ -1,72 +1,216 @@
 <script setup>
 import { ref, reactive, watch, computed,onBeforeMount } from "vue";
 import draggable from "vuedraggable";
-import CatalogItemH from './components/CatalogItemH.vue';
-import CatalogItemX from './components/CatalogItemX.vue';
-import CatalogItemCX from './components/CatalogItemCX.vue';
-import CatalogItemCCX from './components/CatalogItemCCX.vue';
-import CatalogItemSWAP from './components/CatalogItemSWAP.vue';
-import CatalogItemID from './components/CatalogItemID.vue';
-import CatalogItemT from './components/CatalogItemT.vue';
-import CatalogItemS from './components/CatalogItemS.vue';
-import CatalogItemZ from './components/CatalogItemZ.vue';
-import CatalogItemTdagger from './components/CatalogItemTdagger.vue';
-import CatalogItemSdagger from './components/CatalogItemSdagger.vue';
-import CatalogItemP from './components/CatalogItemP.vue';
-import CatalogItemRZ from './components/CatalogItemRZ.vue';
-console.log(CatalogItemH)
+import ListBarrier from './components/list/ListBarrier.vue';
+import ListCCX from './components/list/ListCCX.vue';
+import ListControlledNot from './components/list/ListControlledNot.vue';
+import ListH from './components/list/ListH.vue';
+import ListID from './components/list/ListID.vue';
+import ListIP from './components/list/ListIP.vue';
+import ListMeasure from './components/list/ListMeasure.vue';
+import ListNotX from './components/list/ListNotX.vue';
+import ListRC3X from './components/list/ListRC3X.vue';
+import ListRCCX from './components/list/ListRCCX.vue';
+import ListReset from './components/list/ListReset.vue';
+import ListRX from './components/list/ListRX.vue';
+import ListRXX from './components/list/ListRXX.vue';
+import ListRY from './components/list/ListRY.vue';
+import ListRZ from './components/list/ListRZ.vue';
+import ListRZZ from './components/list/ListRZZ.vue';
+import ListS from './components/list/ListS.vue';
+import ListSDragger from './components/list/ListSDragger.vue';
+import ListSWAP from './components/list/ListSWAP.vue';
+import ListSX from './components/list/ListSX.vue';
+import ListSXdg from './components/list/ListSXdg.vue';
+import ListT from './components/list/ListT.vue';
+import ListTDragger from './components/list/ListTDragger.vue';
+import ListU from './components/list/ListU.vue';
+import ListY from './components/list/ListY.vue';
+import ListZ from './components/list/ListZ.vue';
+// drag
+import DragBarrier from './components/drag/dragBarrier.vue';
+import DragCCX from './components/drag/dragCCX.vue';
+import DragCX from './components/drag/dragCX.vue';
+import DragP from './components/drag/dragP.vue';
+import DragRc3x from './components/drag/dragRc3x.vue';
+import DragRccx from './components/drag/dragRccx.vue';
+import DragRX from './components/drag/dragRX.vue';
+import DragRXX from './components/drag/dragRXX.vue';
+import DragRY from './components/drag/dragRY.vue';
+import DragRZ from './components/drag/dragRZ.vue';
+import DragRZZ from './components/drag/dragRZZ.vue';
+import DragSWAP from './components/drag/dragSWAP.vue';
+import DragU from './components/drag/dragU.vue';
+import DragX from './components/drag/dragX.vue';
 const props = defineProps(['element']);
 
 const getComponent = (name) => {
   switch (name) {
-    case 'H':
-      return CatalogItemH;
-    case 'X':
-      return CatalogItemX;
-    case 'CX':
-      return CatalogItemCX;
+    case 'Barrier':
+      return ListBarrier;
     case 'CCX':
-      return CatalogItemCCX;
-    case 'SWAP':
-      return CatalogItemSWAP;
+      return ListCCX;
+    case 'ControlledNot':
+      return ListControlledNot;
+    case 'H':
+      return ListH;
     case 'ID':
-      return CatalogItemID;
-    case 'T':
-      return CatalogItemT;
-    case 'S':
-      return CatalogItemS;
-    case 'Z':
-      return CatalogItemZ;
-    case 'Tdagger':
-      return CatalogItemTdagger;
-    case 'Sdagger':
-      return CatalogItemSdagger;
-    case 'p':
-      return CatalogItemP;
+      return ListID;
+    case 'IP':
+      return ListIP;
+    case 'Measure':
+      return ListMeasure;
+    case 'NotX':
+      return ListNotX;
+    case 'RC3X':
+      return ListRC3X;
+    case 'RCCX':
+      return ListRCCX;
+    case 'Reset':
+      return ListReset;
+    case 'RX':
+      return ListRX;
+    case 'RXX':
+      return ListRXX;
+    case 'RY':
+      return ListRY;
     case 'RZ':
-      return CatalogItemRZ;
+      return ListRZ;
+    case 'RZZ':
+      return ListRZZ;
+    case 'S':
+      return ListS;
+    case 'SDragger':
+      return ListSDragger;
+    case 'SWAP':
+      return ListSWAP;
+    case 'SX':
+      return ListSX;
+    case 'SXdg':
+      return ListSXdg;
+    case 'T':
+      return ListT;
+    case 'TDragger':
+      return ListTDragger;
+    case 'U':
+      return ListU;
+    case 'Y':
+      return ListY;
+    case 'Z':
+      return ListZ;
     default:
       return null; // 或者其他的預設組件
   }
+};
+const getComponentDrag = (name) => {
+  switch (name) {
+    case 'Barrier':
+      return DragBarrier || ListBarrier;
+    case 'CCX':
+      return DragCCX || ListCCX;
+    case 'ControlledNot':
+      return DragCX || ListCX;
+    case 'P':
+      return DragP || ListP;
+    case 'Rc3x':
+      return DragRc3x || ListRC3X;
+    case 'Rccx':
+      return DragRccx || ListRCCX;
+    case 'RX':
+      return DragRX || ListRX;
+    case 'RXX':
+      return DragRXX || ListRXX;
+    case 'RY':
+      return DragRY || ListRY;
+    case 'RZ':
+      return DragRZ || ListRZ;
+    case 'RZZ':
+      return DragRZZ || ListRZZ;
+    case 'SWAP':
+      return DragSWAP || ListSWAP;
+    case 'U':
+      return DragU || ListU;
+    case 'X':
+      return DragX || ListX;
+    case 'H':
+      return ListH;
+    case 'ID':
+      return ListID;
+    case 'IP':
+      return ListIP;
+    case 'Measure':
+      return ListMeasure;
+    case 'NotX':
+      return DragX;
+    case 'Reset':
+      return ListReset;
+    case 'S':
+      return ListS;
+    case 'SDragger':
+      return ListSDragger;
+    case 'SX':
+      return ListSX;
+    case 'SXdg':
+      return ListSXdg;
+    case 'T':
+      return ListT;
+    case 'TDragger':
+      return ListTDragger;
+    case 'Y':
+      return ListY;
+    case 'Z':
+      return ListZ;
+    default:
+      return null; // 或者其他的默认组件
+  }
+};
+// 右鍵事件
+const showContextMenu = ref(false);
+const showContextMenuMap = ref({});
+const contextMenuPosition = ref({ top: 0, left: 0 });
+const handleContextMenu = (index, column, event) => {
+    event.preventDefault();
+    console.log(index)
+    console.log(column)
+    console.log(event)
+    showContextMenu.value = true
+    contextMenuPosition.value = {
+        top: event.clientY,
+        left: event.clientX
+    };
+    console.log('1236574')
 };
 // https://www.itxst.com/vue-draggable/vnqb7fey.html
 const limitHeight = ref(6)
 const columns = reactive([])
 const state = reactive({
   mainList: [
-    { name: "H", height: 1, id: 1 },
-    { name: "X", height: 1, id: 2 },
-    { name: "CX", height: 2, id: 3 },
-    { name: "CCX", height: 3, id: 4 },
-    { name: "SWAP", height: 2, id: 5 },
-    { name: "ID", height: 1, id: 6 },
-    { name: "T", height: 1, id: 7 },
-    { name: "S", height: 1, id: 8 },
-    { name: "Z", height: 1, id: 9 },
-    { name: "Tdagger", height: 1, id: 10 },
-    { name: "Sdagger", height: 1, id: 11 },
-    { name: "p", height: 1, id: 12 },
-    { name: "RZ", height: 1, id: 13 }
+  { name: "H", height: 1, id: 1 },
+  { name: "NotX", height: 1, id: 2 },
+  { name: "ControlledNot", height: 2, id: 3 },
+  { name: "CCX", height: 3, id: 4 },
+  { name: "SWAP", height: 2, id: 5 },
+  { name: "ID", height: 1, id: 6 },
+  { name: "T", height: 1, id: 7 },
+  { name: "S", height: 1, id: 8 },
+  { name: "Z", height: 1, id: 9 },
+  { name: "tdg", height: 1, id: 10 },
+  { name: "sdg", height: 1, id: 11 },
+  { name: "P", height: 1, id: 12 },
+  { name: "SX", height: 1, id: 13 },
+  { name: "SXdg", height: 1, id: 14 },
+  { name: "Y", height: 1, id: 15 },
+  { name: "RX", height: 1, id: 16 },
+  { name: "RY", height: 1, id: 17 },
+  { name: "RZ", height: 1, id: 18 },
+  { name: "RXX", height: 2, id: 19 },
+  { name: "RZZ", height: 2, id: 20 },
+  { name: "U", height: 1, id: 21 },
+  { name: "RCCX", height: 3, id: 22 },
+  { name: "RC3X", height: 4, id: 23 },
+  { name: "reset", height: 1, id: 24 },
+  { name: "Barrier", height: 1, id: 25 },
+  { name: "measure", height: 2, id: 26 },
   ]
 });
 onBeforeMount(() => {
@@ -256,6 +400,31 @@ const deletItem = (element,index,column) => {
     state[column].splice(index , 0, { name: "_" ,height:1});
   }
 }
+const download = () => {
+  let content = '';
+  for(let i =0; i<columns.length;i++){
+    for(let j=0;j<state[columns[i]].length;j++){
+      let item = state[columns[i]][j]
+      if(item.name!== '_' &&item.name!== '__' ){
+        let name = item.name
+        let index = j+1
+        let fullname=name+'q['+index+'],'
+        content+= fullname
+      }
+    }
+  }
+
+  // 建立 Blob 物件
+  const blob = new Blob([content], { type: 'text/plain' });
+  
+  // 建立下載連結
+  const link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  link.download = 'data.txt';
+
+  // 觸發點擊連結
+  link.click();
+}
 
 const totalHeightList1 = computed(() => {
   let height = state.list1.reduce((acc, item) => acc + item.height, 0);
@@ -308,13 +477,20 @@ const totalHeightList1 = computed(() => {
         swapThreshold: 0.20,
       >
         <template #item="{ element,index }">
-          <div class="item" :class="[element.name === '_' || element.name === '__' ? 'opp' : '', 'height-' + element.height]"  >
-             <component :is="getComponent(element.name)"></component>
-            <p v-if="element.name != '_' && element.name != '__'" @click="deletItem(element,index,column)" class="delete">x</p>
+          
+          <div class="item" 
+          @mouseleave="showContextMenu = false"
+          @contextmenu.prevent="handleContextMenu(index, column, $event)"
+ :class="[element.name === '_' || element.name === '__' ? 'opp' : '', 'height-' + element.height],element.name === '__' ?'none':''"  >
+             <component :is="getComponentDrag(element.name)"></component>
+            <span v-if="element.name != '_' && element.name != '__'" @click="deletItem(element,index,column)" class="delete">x</span>
           </div>
         </template>
       </draggable>
     </div>
+    <!-- <div v-if="showContextMenu" class="context-menu" :style="{ top: contextMenuPosition.top + 'px', left: contextMenuPosition.left + 'px' }">
+      <p @click="deletItem(element,index,column)" class="delete">刪除</p>
+    </div> -->
     <!-- 程式清單 -->
     <div class="list-box">
       <div v-for="column in columns" :key="column" class="list">
@@ -328,6 +504,9 @@ const totalHeightList1 = computed(() => {
             </span>
           </div>
         </div>
+      </div>
+      <div class="download" @click="download()">
+        <p>下載</p>
       </div>
     </div>
   </div>
@@ -361,7 +540,7 @@ const totalHeightList1 = computed(() => {
   // height: 150px;
   height: 200px;
   width: 100px;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(92, 92, 92);
   color: black;
   margin-right: 2px;
   position: relative;
@@ -391,7 +570,8 @@ const totalHeightList1 = computed(() => {
   /* overflow: hidden; */
 }
 .opp{
-  background-color: rgba(249, 249, 204, 0.428) !important;
+  background-color: rgba(249, 249, 204, 0) !important;
+  // border-bottom:  none !important;
   color: rgba(255, 255, 255, 0);
 }
 
@@ -399,20 +579,33 @@ const totalHeightList1 = computed(() => {
   // background-color: rgb(150, 155, 155);
   height: 30px;
   position: relative;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(255, 255, 255);
+}
+.context-menu{
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0);
+  width: 50px;
+  height: 50px;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // position: absolute;
+  // top: 0%;
+  // transform: translateY(-50%);
+  // cursor: pointer;
 }
 .delete{
   color: rgb(255, 255, 255);
   background-color: rgb(0, 0, 0);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+  width: 15px;
+  height: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 0%;
-  transform: translateY(-50%);
+  top: 0px;
+  right: 0%;
+  // transform: translateY(-50%);
   cursor: pointer;
 }
 .list-box{
@@ -422,6 +615,20 @@ const totalHeightList1 = computed(() => {
   background-color: rgb(255, 255, 255);
   position: relative;
   margin-left: 50px;
+  .download{
+    width: 100px;
+    height: 30px;
+    background-color: rgb(205, 219, 255);
+    color:rgb(64, 58, 99);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover{
+      background-color: rgb(64, 58, 99);
+      color: white;
+    }
+  }
 }
 
 .list{
@@ -439,18 +646,21 @@ const totalHeightList1 = computed(() => {
     }
   }
 }
+.none{
+  border-bottom: none !important;
+}
 .height-1 {
   height: 40px; /* 设置您想要的高度 */
   // background-color: beige;
 }
 
 .height-2 {
-  height: 80px; /* 设置您想要的高度 */
-  background-color: blueviolet;
+  height: 81px; /* 设置您想要的高度 */
+  // background-color: blueviolet;
 }
 
 .height-3 {
-  height: 120px; /* 设置您想要的高度 */
-  background-color: rgb(88, 139, 25);
+  height: 122px; /* 设置您想要的高度 */
+  // background-color: rgb(88, 139, 25);
 }
 </style>
