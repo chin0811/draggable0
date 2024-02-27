@@ -112,9 +112,9 @@ const getComponentDrag = (name) => {
       return DragCX || ListCX;
     case 'P':
       return DragP || ListP;
-    case 'Rc3x':
+    case 'RC3X':
       return DragRc3x || ListRC3X;
-    case 'Rccx':
+    case 'RCCX':
       return DragRccx || ListRCCX;
     case 'RX':
       return DragRX || ListRX;
@@ -474,7 +474,7 @@ watch(state, (newValue, oldValue) => {
       </div>
     </div>
     <div>
-      <p @click="newColumn()">新增</p>
+      <p @click="newColumn()" class="new">新增</p>
     </div>
     <!-- 程式清單 -->
     <div class="rightBlock">
@@ -499,6 +499,18 @@ watch(state, (newValue, oldValue) => {
   display: flex;
   align-items: flex-start;
   justify-content: center;
+}
+.new{
+  margin-left: 10px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(200, 219, 235);
+  color: black;
+  cursor: pointer;
+  &:hover{
+    background-color: rgb(137, 155, 199);
+  }
 }
 .lineIndex{
   width: 60px;
