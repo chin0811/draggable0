@@ -178,10 +178,10 @@ const handleContextMenu = (index, column, event) => {
         top: event.clientY,
         left: event.clientX
     };
-    console.log('1236574')
 };
 // https://www.itxst.com/vue-draggable/vnqb7fey.html
 const limitHeight = ref(6)
+const columnNum = ref(10)
 const columns = reactive([])
 const state = reactive({
   mainList: [
@@ -224,16 +224,12 @@ onBeforeMount(() => {
 });
 let startHeight = 0
 const onStart = (evt,num) =>{
-  console.log(evt)
   startHeight = evt.target.__draggable_component__.context.element.height
-  console.log('start')
   if(state[num].length<limitHeight){
     state[num].push({name:'_',type:'temp'})
   }
 }
 const onEnd = (evt,num) =>{
-  console.log('end')
-
 }
 let needDelete = false
 let lastIndex
@@ -260,14 +256,6 @@ const log = (evt,num) => {
             heightToRemove--;
         }
     }
-    // console.log(needDelete)
-    // console.log(evt.added.newIndex)
-    // console.log(lastIndex)
-    // if(needDelete==true&&evt.added.newIndex>lastIndex){
-    //   state[num].splice(-2, 1);;
-    //   needDelete=false
-    //   lastIndex=null
-    // }
 
   }else if (evt.removed){
     let itemHeight=evt.removed.element.height
@@ -275,9 +263,7 @@ const log = (evt,num) => {
       state[num].splice(evt.removed.oldIndex , 0, { name: "_" ,height:1});
     }
   }else if (evt.moved){
-    console.log('temp')
     if(evt.moved.newIndex==3){
-      console.log('temp2')
       state[num] = state[num].map(item => {
           if (item.type === 'temp') {
               item.type = 'act';
@@ -289,12 +275,6 @@ const log = (evt,num) => {
   state[num] = state[num].filter(item => item.type !== 'temp');
 };
 const onMove = (evt,num) => {
-  console.log('move')
-  console.log(evt)
-  // console.log(num)
-  // console.log(evt.relatedContext.list)
-  // console.log(evt.from.__draggable_component__.list)
-  // console.log(evt.relatedContext.list==evt.from.__draggable_component__.list)
   let sameList = evt.relatedContext.list==evt.from.__draggable_component__.list
   let toList = evt.to.__draggable_component__.list
   let totalHeight = 0;
@@ -316,24 +296,6 @@ const onMove = (evt,num) => {
   if(evt.relatedContext.list[lastIndex].name!='_'){
     needDelete = true
   }
-  // if(visualHeight >= limitHeight.value&&!sameList){
-  //   let lastIndex = evt.relatedContext.list.length-1
-  //   if(evt.relatedContext.list[lastIndex].name!='_'){
-  //     let endHeight = evt.relatedContext.list[lastIndex].height
-  //     if(evt.draggedContext.futureIndex>=limitHeight.value-endHeight){
-  //       return false
-  //     }
-  //   }
-  //   let letSpace = 0
-  //   while(lastIndex >= 0 && evt.relatedContext.list[lastIndex].name === '_'){
-  //     letSpace++;
-  //     lastIndex--;
-  //   }
-  //   console.log(letSpace)
-  //   if(startHeight>letSpace){
-  //     return false
-  //   }
-  // }
 }
 const onAdd = (evt,num) => {
   console.log('add')
@@ -366,24 +328,6 @@ const mainMove = (evt,num) => {
   if(evt.relatedContext.list[lastIndex].name!='_'){
     needDelete = true
   }
-  // if(visualHeight >= limitHeight.value){
-  //   let lastIndex = evt.relatedContext.list.length-1
-  //   if(evt.relatedContext.list[lastIndex].name!='_'){
-  //     let endHeight = evt.relatedContext.list[lastIndex].height
-  //     if(evt.draggedContext.futureIndex>=limitHeight.value-endHeight){
-  //       return false
-  //     }
-  //   }
-  //   let letSpace = 0
-  //   while(lastIndex >= 0 && evt.relatedContext.list[lastIndex].name === '_'){
-  //     letSpace++;
-  //     lastIndex--;
-  //   }
-  //   console.log(letSpace)
-  //   if(startHeight>letSpace){
-  //     return false
-  //   }
-  // }
 }
 const onClone = (evt,num) => {
   console.log('clone')
@@ -400,20 +344,19 @@ const deletItem = (element,index,column) => {
     state[column].splice(index , 0, { name: "_" ,height:1});
   }
 }
+const newColumn =()=>{
+    columnNum.value++
+    const listName = 'list' + columnNum.value;
+    columns.push(listName);
+    state[listName] = Array.from({ length: 5 }, () => ({ name: "_", height: 1 }));
+    state[listName].push({ name: "__", height: 1 });
+    console.log(state)
+}
 const download = () => {
-  let content = '';
-  for(let i =0; i<columns.length;i++){
-    for(let j=0;j<state[columns[i]].length;j++){
-      let item = state[columns[i]][j]
-      if(item.name!== '_' &&item.name!== '__' ){
-        let name = item.name
-        let index = j+1
-        let fullname=name+'q['+index+'],'
-        content+= fullname
-      }
-    }
-  }
-
+  let indexedArray = printList.map(function(element, index) {
+      return index + ' ' + element;
+  });
+  let content = indexedArray.join('\n');
   // 建立 Blob 物件
   const blob = new Blob([content], { type: 'text/plain' });
   
@@ -431,7 +374,44 @@ const totalHeightList1 = computed(() => {
   // console.log(height)
   return height
 });
-
+let printList = []
+watch(state, (newValue, oldValue) => {
+  console.log(newValue);
+  let list = []
+  for(let i =0; i<columns.length;i++){
+    let heightNow=0
+    for(let j=0;j<state[columns[i]].length;j++){
+      let item = state[columns[i]][j]
+      // item.name!== '_' &&item.name!== '__'
+      if(item.height==1){
+        let name = item.name
+        let index = heightNow
+        let fullname=name+' '+'q['+index+'];'
+        if(item.name!== '_' &&item.name!== '__'){
+          list.push(fullname)
+        }
+        heightNow++
+      }else{
+        let name = item.name
+        let indexblock=''
+        console.log(item.height)
+        for(let k=0;k<item.height;k++){
+          let index = heightNow+k
+          indexblock+=' q['+index+'] '
+          console.log(indexblock)
+        }
+        heightNow+=item.height
+        console.log(heightNow)
+        let fullname=name+indexblock+';'
+        if(item.name!== '_' &&item.name!== '__'){
+          list.push(fullname)
+        }
+      }
+    }
+  }
+  console.log( list)
+  printList = list
+});
 </script>
 
 <template>
@@ -459,49 +439,50 @@ const totalHeightList1 = computed(() => {
     </div>
     <!-- 右邊的每個coulumn -->
     <!-- :class="'column' + (index + 1)"  -->
-    <div v-for="(column, index) in columns" :key="index" class="column"  @mouseenter="onMouseEnter(column)">
-      <draggable
-        :list="state[column]"
-        chosen-class="chosenClass"
-        animation="300"
-        @start="(event) => onStart(event, column)"
-        @end="(event) => onEnd(event, column)"
-        @add="(event) => onAdd(event, column)"
-        @clone="(event) => onClone(event, column)"
-        :group="{ name: 'formula'}"
-        @change="(event) => log(event, column)"
-        :item-key=index
-        filter=".opp"
-        @beforeEnd="onBeforeEnd"
-        :move="(event) => onMove(event, column)"
-        swapThreshold: 0.20,
-      >
-        <template #item="{ element,index }">
-          
-          <div class="item" 
-          @mouseleave="showContextMenu = false"
-          @contextmenu.prevent="handleContextMenu(index, column, $event)"
- :class="[element.name === '_' || element.name === '__' ? 'opp' : '', 'height-' + element.height],element.name === '__' ?'none':''"  >
-             <component :is="getComponentDrag(element.name)"></component>
-            <span v-if="element.name != '_' && element.name != '__'" @click="deletItem(element,index,column)" class="delete">x</span>
-          </div>
-        </template>
-      </draggable>
+    <div class="lineIndex">
+      <p  v-for="(item, index) in 5" >q[{{item-1}}]</p>
     </div>
-    <!-- <div v-if="showContextMenu" class="context-menu" :style="{ top: contextMenuPosition.top + 'px', left: contextMenuPosition.left + 'px' }">
-      <p @click="deletItem(element,index,column)" class="delete">刪除</p>
-    </div> -->
+    <div class="columnBox">
+      <div v-for="(column, index) in columns" :key="index" class="column"  @mouseenter="onMouseEnter(column)">
+        <draggable
+          :list="state[column]"
+          chosen-class="chosenClass"
+          animation="300"
+          @start="(event) => onStart(event, column)"
+          @end="(event) => onEnd(event, column)"
+          @add="(event) => onAdd(event, column)"
+          @clone="(event) => onClone(event, column)"
+          :group="{ name: 'formula'}"
+          @change="(event) => log(event, column)"
+          :item-key=index
+          filter=".opp"
+          @beforeEnd="onBeforeEnd"
+          :move="(event) => onMove(event, column)"
+          swapThreshold: 0.20,
+        >
+          <template #item="{ element,index }">
+            <div class="item" 
+            @mouseleave="showContextMenu = false"
+            @contextmenu.prevent="handleContextMenu(index, column, $event)"
+  :class="[element.name === '_' || element.name === '__' ? 'opp' : '', 'height-' + element.height],element.name === '__' ?'none':''"  >
+              <component :is="getComponentDrag(element.name)">
+              </component>
+              <span v-if="element.name != '_' && element.name != '__'" @click="deletItem(element,index,column)" class="delete">x</span>
+            </div>
+          </template>
+        </draggable>
+      </div>
+    </div>
+    <div>
+      <p @click="newColumn()">新增</p>
+    </div>
     <!-- 程式清單 -->
-    <div class="list-box">
-      <div v-for="column in columns" :key="column" class="list">
-        <div v-for="(item,index) in state[column]" :key="item.id" >
-          <div v-if="item.name !== '_' && item.name != '__'" class="item">
-            <span class="name">{{ item.name }}</span>
-            <span v-for="(arr,heightIndex) in item.height">
-              q[{{ index + heightIndex }}]
-              <span v-if="item.height-heightIndex==1">;</span>
-              <span v-else>,</span>
-            </span>
+    <div class="rightBlock">
+      <div class="list-box" >
+        <div v-for="(item,index) in printList"  class="list">
+          <p class="indexNum">{{ index }}</p>
+          <div class="item">
+            <p>{{ item }}</p>
           </div>
         </div>
       </div>
@@ -514,7 +495,21 @@ const totalHeightList1 = computed(() => {
 
 <style lang="scss" scoped>
 .fullBox{
+  width: 100%;
   display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.lineIndex{
+  width: 60px;
+  height: 210px;
+  display: flex;
+  flex-wrap: wrap;
+  p{
+    width: 100%;
+    height: 40px;
+    margin: 0;
+  }
 }
 .mainListBox{
   height: 240px;
@@ -536,10 +531,16 @@ const totalHeightList1 = computed(() => {
     // }
   }
 }
+.columnBox{
+  width: 800px;
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
 .column{
   // height: 150px;
   height: 200px;
-  width: 100px;
+  min-width: 100px;
   background-color: rgb(92, 92, 92);
   color: black;
   margin-right: 2px;
@@ -579,6 +580,8 @@ const totalHeightList1 = computed(() => {
   // background-color: rgb(150, 155, 155);
   height: 30px;
   position: relative;
+  display: flex;
+  justify-content: center;
   border-bottom: 1px solid rgb(255, 255, 255);
 }
 .context-menu{
@@ -608,16 +611,19 @@ const totalHeightList1 = computed(() => {
   // transform: translateY(-50%);
   cursor: pointer;
 }
-.list-box{
+.rightBlock{
   display: flex;
-  flex-wrap: wrap;
   width: 300px;
-  background-color: rgb(255, 255, 255);
+  background-color: rebeccapurple;
+  margin-left: 60px;
+  flex-wrap: wrap;
   position: relative;
-  margin-left: 50px;
+  height: 500px;
   .download{
-    width: 100px;
+    width: 300px;
     height: 30px;
+    position: relative;
+    top: 10px;
     background-color: rgb(205, 219, 255);
     color:rgb(64, 58, 99);
     cursor: pointer;
@@ -627,6 +633,23 @@ const totalHeightList1 = computed(() => {
     &:hover{
       background-color: rgb(64, 58, 99);
       color: white;
+    }
+  }
+}
+.list-box{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+  position: relative;
+  .list{
+    display: flex;
+    align-items: center;
+    height: 30px;
+    .indexNum{
+      color: rgb(58, 58, 58);
     }
   }
 }

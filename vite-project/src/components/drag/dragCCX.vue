@@ -1,4 +1,4 @@
 <template>
     <!-- CCX -->
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 110" width="32" height="80"><circle cx="21.05" cy="89" r="21" style="fill:#002d9c;stroke-width:0"/><path style="fill:none;stroke:#002d9c;stroke-miterlimit:10" d="M21.05 68V43.5"/><circle cx="21.05" cy="39" r="5" style="fill:#002d9c;stroke-width:0"/><path style="fill:none;stroke:#fff;stroke-miterlimit:10" d="M11.05 89.25h20m-10-10v20"/><path style="fill:none;stroke:#002d9c;stroke-miterlimit:10" d="M20.97 34.11V9.61"/><circle cx="21.05" cy="5.11" r="5" style="fill:#002d9c;stroke-width:0"/></svg>
+    <svg width="35" height="123" viewBox="0 0 35 123" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="17.5" cy="102.5" r="17.5" fill="#002D9C"/><path stroke="#fff" d="M6 102.5h23M17.5 91v23"/><path stroke="#002D9C" d="M17.5 85V51"/><circle cx="17.5" cy="47.5" r="3.5" fill="#002D9C"/><path stroke="#002D9C" d="M17.5 44V10"/><circle cx="17.5" cy="6.5" r="3.5" fill="#002D9C"/></svg>
 </template>
