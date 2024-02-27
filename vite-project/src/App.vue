@@ -210,7 +210,7 @@ const state = reactive({
   { name: "RC3X", height: 4, id: 23 },
   { name: "reset", height: 1, id: 24 },
   { name: "Barrier", height: 1, id: 25 },
-  { name: "measure", height: 2, id: 26 },
+  { name: "Measure", height: 1, id: 26 },
   ]
 });
 onBeforeMount(() => {
